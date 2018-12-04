@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,16 +19,17 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- * 
+ *
  * @author Jeff Butler
- * 
+ *
  */
 public class UpdateByPrimaryKeySelectiveElementGenerator extends
-        AbstractXmlElementGenerator {
+    AbstractXmlElementGenerator {
 
     public UpdateByPrimaryKeySelectiveElementGenerator() {
         super();
@@ -39,8 +40,8 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
 
         answer
-                .addAttribute(new Attribute(
-                        "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
+            .addAttribute(new Attribute(
+                "id", introspectedTable.getUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
 
         String parameterType;
 
@@ -51,7 +52,7 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
         }
 
         answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-                parameterType));
+            "map"));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -64,21 +65,22 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
         XmlElement dynamicElement = new XmlElement("set"); //$NON-NLS-1$
         answer.addElement(dynamicElement);
 
-        for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
+        for (IntrospectedColumn introspectedColumn : ListUtilities
+            .removeGeneratedAlwaysColumns(introspectedTable
                 .getNonPrimaryKeyColumns())) {
             XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
             sb.setLength(0);
-            sb.append(introspectedColumn.getJavaProperty());
+            sb.append(XmlConstants.XML_RECORD_PERFIX + introspectedColumn.getJavaProperty());
             sb.append(" != null"); //$NON-NLS-1$
             isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
             dynamicElement.addElement(isNotNullElement);
 
             sb.setLength(0);
             sb.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
+                .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                .getParameterClause(introspectedColumn, XmlConstants.XML_RECORD_PERFIX));
             sb.append(',');
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
@@ -86,7 +88,7 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
 
         boolean and = false;
         for (IntrospectedColumn introspectedColumn : introspectedTable
-                .getPrimaryKeyColumns()) {
+            .getPrimaryKeyColumns()) {
             sb.setLength(0);
             if (and) {
                 sb.append("  and "); //$NON-NLS-1$
@@ -96,16 +98,16 @@ public class UpdateByPrimaryKeySelectiveElementGenerator extends
             }
 
             sb.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
+                .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                .getParameterClause(introspectedColumn, XmlConstants.XML_RECORD_PERFIX));
             answer.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()
-                .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
-                        introspectedTable)) {
+            .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
+                introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

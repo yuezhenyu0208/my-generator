@@ -51,9 +51,21 @@ public class XmlConstants {
 
     public static final String MYBATIS_GENERATOR_CONFIG_PUBLIC_ID = "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"; //$NON-NLS-1$
 
-    public static final String XML_APPKEY = "${appkey}."; //$NON-NLS-1$
+    public static final String XML_APPKEY = "${schema}."; //$NON-NLS-1$
 
-    public static final String MAPPER_APPKEY = "appkey"; //$NON-NLS-1$
+    public static final String MAPPER_APPKEY = "schema"; //$NON-NLS-1$
 
-    public static final String ANNO_APPKEY = "@Param(\"appkey\")"; //$NON-NLS-1$
+    public static final String ANNO_APPKEY = "@Param(\"schema\")"; //$NON-NLS-1$
+
+    public static final String ANNO_RECORD = "@Param(\"record\")"; //$NON-NLS-1$
+
+    public static final String ANNO_EXAMPLE = "@Param(\"example\")"; //$NON-NLS-1$
+
+    public static final String XML_RECORD_PERFIX = "record."; //$NON-NLS-1$
+
+    public static final String XML_EXAMPLE_PERFIX = "example."; //$NON-NLS-1$
+
+    public static String getAnno(String key) {
+        return "@Param(\"" + key + "\")";
+    }
 }

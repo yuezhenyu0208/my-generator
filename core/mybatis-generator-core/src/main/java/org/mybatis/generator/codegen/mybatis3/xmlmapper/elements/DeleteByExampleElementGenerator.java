@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -20,12 +20,10 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class DeleteByExampleElementGenerator extends
-        AbstractXmlElementGenerator {
+    AbstractXmlElementGenerator {
 
     public DeleteByExampleElementGenerator() {
         super();
@@ -38,20 +36,20 @@ public class DeleteByExampleElementGenerator extends
         String fqjt = introspectedTable.getExampleType();
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getDeleteByExampleStatementId())); //$NON-NLS-1$
-        answer.addAttribute(new Attribute("parameterType", fqjt)); //$NON-NLS-1$
+            "id", introspectedTable.getDeleteByExampleStatementId())); //$NON-NLS-1$
+        answer.addAttribute(new Attribute("parameterType", "map")); //$NON-NLS-1$
 
         context.getCommentGenerator().addComment(answer);
 
         StringBuilder sb = new StringBuilder();
         sb.append("delete from "); //$NON-NLS-1$
         sb.append(introspectedTable
-                .getAliasedFullyQualifiedTableNameAtRuntime());
+            .getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
         answer.addElement(getExampleIncludeElement());
 
         if (context.getPlugins().sqlMapDeleteByExampleElementGenerated(
-                answer, introspectedTable)) {
+            answer, introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

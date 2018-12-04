@@ -52,7 +52,7 @@ public class SelectByPrimaryKeyMethodGenerator extends
 
         method.setName(introspectedTable.getSelectByPrimaryKeyStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getPrimaryKeyType());
@@ -76,7 +76,8 @@ public class SelectByPrimaryKeyMethodGenerator extends
                     .getFullyQualifiedJavaType();
                 importedTypes.add(type);
                 Parameter parameter = new Parameter(type, introspectedColumn
-                    .getJavaProperty());
+                    .getJavaProperty(), XmlConstants.getAnno(introspectedColumn
+                    .getJavaProperty()));
                 if (annotate) {
                     sb.setLength(0);
                     sb.append("@Param(\""); //$NON-NLS-1$

@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -16,25 +16,23 @@
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
 import java.util.Iterator;
-
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.OutputUtilities;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.codegen.mybatis3.ListUtilities;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class UpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
-        AbstractXmlElementGenerator {
+    AbstractXmlElementGenerator {
 
     private boolean isSimple;
-    
+
     public UpdateByPrimaryKeyWithoutBLOBsElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
@@ -45,9 +43,9 @@ public class UpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getUpdateByPrimaryKeyStatementId())); //$NON-NLS-1$
+            "id", introspectedTable.getUpdateByPrimaryKeyStatementId())); //$NON-NLS-1$
         answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-                introspectedTable.getBaseRecordType()));
+            "map"));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -62,18 +60,21 @@ public class UpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
 
         Iterator<IntrospectedColumn> iter;
         if (isSimple) {
-            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).iterator();
+            iter = ListUtilities
+                .removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns())
+                .iterator();
         } else {
-            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns()).iterator();
+            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns())
+                .iterator();
         }
         while (iter.hasNext()) {
             IntrospectedColumn introspectedColumn = iter.next();
 
             sb.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
+                .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                .getParameterClause(introspectedColumn, XmlConstants.XML_RECORD_PERFIX));
 
             if (iter.hasNext()) {
                 sb.append(',');
@@ -90,7 +91,7 @@ public class UpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
 
         boolean and = false;
         for (IntrospectedColumn introspectedColumn : introspectedTable
-                .getPrimaryKeyColumns()) {
+            .getPrimaryKeyColumns()) {
             sb.setLength(0);
             if (and) {
                 sb.append("  and "); //$NON-NLS-1$
@@ -100,16 +101,16 @@ public class UpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
             }
 
             sb.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
+                .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                .getParameterClause(introspectedColumn, XmlConstants.XML_RECORD_PERFIX));
             answer.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()
-                .sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(answer,
-                        introspectedTable)) {
+            .sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(answer,
+                introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

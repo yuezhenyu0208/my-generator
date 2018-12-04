@@ -55,8 +55,9 @@ public class UpdateByPrimaryKeySelectiveMethodGenerator extends
         method.setName(introspectedTable
             .getUpdateByPrimaryKeySelectiveStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
+        method.addParameter(
+            new Parameter(parameterType, "record", XmlConstants.ANNO_RECORD)); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
             introspectedTable);

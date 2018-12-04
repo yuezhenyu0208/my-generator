@@ -42,7 +42,7 @@ public class UpdateByExampleWithoutBLOBsMethodGenerator extends
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getUpdateByExampleStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
         FullyQualifiedJavaType parameterType;
         if (introspectedTable.getRules().generateBaseRecordClass()) {
             parameterType = new FullyQualifiedJavaType(introspectedTable

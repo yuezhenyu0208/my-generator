@@ -39,7 +39,7 @@ public class UpdateByExampleSelectiveMethodGenerator extends
         method.setName(introspectedTable
             .getUpdateByExampleSelectiveStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
         FullyQualifiedJavaType parameterType =
             introspectedTable.getRules().calculateAllFieldsClass();
         method.addParameter(new Parameter(parameterType,

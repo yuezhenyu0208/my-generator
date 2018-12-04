@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -22,15 +22,13 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class DeleteByPrimaryKeyElementGenerator extends
-        AbstractXmlElementGenerator {
+    AbstractXmlElementGenerator {
 
     private boolean isSimple;
-    
+
     public DeleteByPrimaryKeyElementGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
@@ -41,7 +39,7 @@ public class DeleteByPrimaryKeyElementGenerator extends
         XmlElement answer = new XmlElement("delete"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(
-                "id", introspectedTable.getDeleteByPrimaryKeyStatementId())); //$NON-NLS-1$
+            "id", introspectedTable.getDeleteByPrimaryKeyStatementId())); //$NON-NLS-1$
         String parameterClass;
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             parameterClass = introspectedTable.getPrimaryKeyType();
@@ -51,12 +49,13 @@ public class DeleteByPrimaryKeyElementGenerator extends
             if (introspectedTable.getPrimaryKeyColumns().size() > 1) {
                 parameterClass = "map"; //$NON-NLS-1$
             } else {
-                parameterClass = introspectedTable.getPrimaryKeyColumns()
-                        .get(0).getFullyQualifiedJavaType().toString();
+                //parameterClass = introspectedTable.getPrimaryKeyColumns()
+                //        .get(0).getFullyQualifiedJavaType().toString();
+                parameterClass = "map";
             }
         }
         answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-                parameterClass));
+            parameterClass));
 
         context.getCommentGenerator().addComment(answer);
 
@@ -67,7 +66,7 @@ public class DeleteByPrimaryKeyElementGenerator extends
 
         boolean and = false;
         for (IntrospectedColumn introspectedColumn : introspectedTable
-                .getPrimaryKeyColumns()) {
+            .getPrimaryKeyColumns()) {
             sb.setLength(0);
             if (and) {
                 sb.append("  and "); //$NON-NLS-1$
@@ -77,16 +76,16 @@ public class DeleteByPrimaryKeyElementGenerator extends
             }
 
             sb.append(MyBatis3FormattingUtilities
-                    .getEscapedColumnName(introspectedColumn));
+                .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
-                    .getParameterClause(introspectedColumn));
+                .getParameterClause(introspectedColumn));
             answer.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()
-                .sqlMapDeleteByPrimaryKeyElementGenerated(answer,
-                        introspectedTable)) {
+            .sqlMapDeleteByPrimaryKeyElementGenerated(answer,
+                introspectedTable)) {
             parentElement.addElement(answer);
         }
     }

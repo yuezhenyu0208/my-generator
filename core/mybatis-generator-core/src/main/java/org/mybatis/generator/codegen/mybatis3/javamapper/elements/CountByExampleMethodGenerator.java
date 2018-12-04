@@ -47,8 +47,9 @@ public class CountByExampleMethodGenerator extends
         method.setReturnType(new FullyQualifiedJavaType("long")); //$NON-NLS-1$
         method.setName(introspectedTable.getCountByExampleStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
-        method.addParameter(new Parameter(fqjt, "example")); //$NON-NLS-1$
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
+        method
+            .addParameter(new Parameter(fqjt, "example", XmlConstants.ANNO_EXAMPLE)); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
             introspectedTable);

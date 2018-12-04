@@ -63,8 +63,9 @@ public class SelectByExampleWithBLOBsMethodGenerator extends
         method.setName(introspectedTable
             .getSelectByExampleWithBLOBsStatementId());
         method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
-            XmlConstants.MAPPER_APPKEY));
-        method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
+            XmlConstants.MAPPER_APPKEY, XmlConstants.ANNO_APPKEY));
+        method
+            .addParameter(new Parameter(type, "example", XmlConstants.ANNO_EXAMPLE)); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
             introspectedTable);
