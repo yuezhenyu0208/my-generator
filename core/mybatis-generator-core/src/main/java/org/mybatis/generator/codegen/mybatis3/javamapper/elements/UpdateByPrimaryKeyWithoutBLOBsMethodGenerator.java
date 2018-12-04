@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -17,20 +17,18 @@ package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
+import org.mybatis.generator.codegen.XmlConstants;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class UpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
-        AbstractJavaMapperMethodGenerator {
+    AbstractJavaMapperMethodGenerator {
 
     public UpdateByPrimaryKeyWithoutBLOBsMethodGenerator() {
         super();
@@ -40,23 +38,25 @@ public class UpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-                introspectedTable.getBaseRecordType());
+            introspectedTable.getBaseRecordType());
         importedTypes.add(parameterType);
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getUpdateByPrimaryKeyStatementId());
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
+            XmlConstants.MAPPER_APPKEY));
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+            introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
-                .clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method,
-                        interfaze, introspectedTable)) {
+            .clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method,
+                interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);
         }

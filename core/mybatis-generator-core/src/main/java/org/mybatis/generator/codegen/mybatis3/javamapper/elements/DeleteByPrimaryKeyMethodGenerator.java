@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -18,24 +18,22 @@ package org.mybatis.generator.codegen.mybatis3.javamapper.elements;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
+import org.mybatis.generator.codegen.XmlConstants;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class DeleteByPrimaryKeyMethodGenerator extends
-        AbstractJavaMapperMethodGenerator {
+    AbstractJavaMapperMethodGenerator {
 
     private boolean isSimple;
-    
+
     public DeleteByPrimaryKeyMethodGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
@@ -48,10 +46,11 @@ public class DeleteByPrimaryKeyMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setName(introspectedTable.getDeleteByPrimaryKeyStatementId());
-
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
+            XmlConstants.MAPPER_APPKEY));
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(
-                    introspectedTable.getPrimaryKeyType());
+                introspectedTable.getPrimaryKeyType());
             importedTypes.add(type);
             method.addParameter(new Parameter(type, "key")); //$NON-NLS-1$
         } else {
@@ -60,19 +59,19 @@ public class DeleteByPrimaryKeyMethodGenerator extends
             // parameters
             // for MyBatis
             List<IntrospectedColumn> introspectedColumns = introspectedTable
-                    .getPrimaryKeyColumns();
+                .getPrimaryKeyColumns();
             boolean annotate = introspectedColumns.size() > 1;
             if (annotate) {
                 importedTypes.add(new FullyQualifiedJavaType(
-                        "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
+                    "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
             }
             StringBuilder sb = new StringBuilder();
             for (IntrospectedColumn introspectedColumn : introspectedColumns) {
                 FullyQualifiedJavaType type = introspectedColumn
-                        .getFullyQualifiedJavaType();
+                    .getFullyQualifiedJavaType();
                 importedTypes.add(type);
                 Parameter parameter = new Parameter(type, introspectedColumn
-                        .getJavaProperty());
+                    .getJavaProperty());
                 if (annotate) {
                     sb.setLength(0);
                     sb.append("@Param(\""); //$NON-NLS-1$
@@ -85,12 +84,12 @@ public class DeleteByPrimaryKeyMethodGenerator extends
         }
 
         context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+            introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins().clientDeleteByPrimaryKeyMethodGenerated(
-                method, interfaze, introspectedTable)) {
+            method, interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);
         }

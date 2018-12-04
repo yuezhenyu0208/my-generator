@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2018 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -19,20 +19,18 @@ import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.Parameter;
+import org.mybatis.generator.codegen.XmlConstants;
 
 /**
- * 
  * @author Jeff Butler
- * 
  */
 public class SelectByExampleWithoutBLOBsMethodGenerator extends
-        AbstractJavaMapperMethodGenerator {
+    AbstractJavaMapperMethodGenerator {
 
     public SelectByExampleWithoutBLOBsMethodGenerator() {
         super();
@@ -42,7 +40,7 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
-                introspectedTable.getExampleType());
+            introspectedTable.getExampleType());
         importedTypes.add(type);
         importedTypes.add(FullyQualifiedJavaType.getNewListInstance());
 
@@ -50,14 +48,14 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
 
         FullyQualifiedJavaType returnType = FullyQualifiedJavaType
-                .getNewListInstance();
+            .getNewListInstance();
         FullyQualifiedJavaType listType;
         if (introspectedTable.getRules().generateBaseRecordClass()) {
             listType = new FullyQualifiedJavaType(introspectedTable
-                    .getBaseRecordType());
+                .getBaseRecordType());
         } else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             listType = new FullyQualifiedJavaType(introspectedTable
-                    .getPrimaryKeyType());
+                .getPrimaryKeyType());
         } else {
             throw new RuntimeException(getString("RuntimeError.12")); //$NON-NLS-1$
         }
@@ -67,16 +65,18 @@ public class SelectByExampleWithoutBLOBsMethodGenerator extends
         method.setReturnType(returnType);
 
         method.setName(introspectedTable.getSelectByExampleStatementId());
+        method.addParameter(new Parameter(FullyQualifiedJavaType.getStringInstance(),
+            XmlConstants.MAPPER_APPKEY));
         method.addParameter(new Parameter(type, "example")); //$NON-NLS-1$
 
         context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+            introspectedTable);
 
         addMapperAnnotations(interfaze, method);
-        
+
         if (context.getPlugins()
-                .clientSelectByExampleWithoutBLOBsMethodGenerated(method,
-                        interfaze, introspectedTable)) {
+            .clientSelectByExampleWithoutBLOBsMethodGenerated(method,
+                interfaze, introspectedTable)) {
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);
         }
